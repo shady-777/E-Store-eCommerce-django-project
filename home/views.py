@@ -6,18 +6,19 @@ from .models import *
 # Create your views here.
 class BaseView(View):
     views = {}
+    views['categories'] = Category.objects.all()
+    views['brands'] = Brand.objects.all()
+    views['sale_products'] = Product.objects.filter(label='sale', stock='In stock')
 
 
 class HomeView(BaseView):
 
     def get(self, request):
-        self.views['categories'] = Category.objects.all()
+        self.views
         self.views['sliders'] = Slider.objects.all()
         self.views['ads'] = Ad.objects.all()
-        self.views['brands'] = Brand.objects.all()
         self.views['new_products'] = Product.objects.filter(label='new', stock='In stock')
         self.views['hot_products'] = Product.objects.filter(label='hot', stock='In stock')
-        self.views['sale_products'] = Product.objects.filter(label='sale', stock='In stock')
         self.views['feedbacks'] = Feedback.objects.all()
         self.views['calls'] = Callus.objects.all()
         return render(request, 'index.html', self.views)
@@ -37,6 +38,17 @@ class BrandView(BaseView):
         ids = Brand.objects.get(slug=slug).id
         self.views['brand_product'] = Product.objects.filter(brand_id=ids)
         return render(request, 'brand.html', self.views)
+
+
+class SearchView(BaseView):
+
+    def get(self, request):
+        query = request.GET.get('query')
+        if query != '':
+            self.views['search_product'] = Product.objects.filter(name__icontains=query)
+        else:
+            return redirect('/')
+        return render(request, 'search.html', self.views)
 
 
 def contact(request):

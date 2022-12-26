@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import View
 from .models import *
 
@@ -15,10 +15,48 @@ class HomeView(BaseView):
         self.views['sliders'] = Slider.objects.all()
         self.views['ads'] = Ad.objects.all()
         self.views['brands'] = Brand.objects.all()
-        self.views['new_products'] = Product.objects.filter(label='new', stock = 'In stock')
-        self.views['hot_products'] = Product.objects.filter(label='hot', stock = 'In stock')
-        self.views['sale_products'] = Product.objects.filter(label='sale', stock = 'In stock')
+        self.views['new_products'] = Product.objects.filter(label='new', stock='In stock')
+        self.views['hot_products'] = Product.objects.filter(label='hot', stock='In stock')
+        self.views['sale_products'] = Product.objects.filter(label='sale', stock='In stock')
+        self.views['feedbacks'] = Feedback.objects.all()
+        self.views['calls'] = Callus.objects.all()
         return render(request, 'index.html', self.views)
+
+
+class CategoryView(BaseView):
+
+    def get(self, request, slug):
+        ids = Category.objects.get(slug=slug).id
+        self.views['cat_product'] = Product.objects.filter(category_id=ids)
+        return render(request, 'category.html', self.views)
+
+
+class BrandView(BaseView):
+
+    def get(self, request, slug):
+        ids = Brand.objects.get(slug=slug).id
+        self.views['brand_product'] = Product.objects.filter(brand_id=ids)
+        return render(request, 'brand.html', self.views)
+
+
+def contact(request):
+    views = {}
+    views['information'] = Information.objects.all()
+
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+        data = Users.objects.create(
+            name=name,
+            email=email,
+            subject=subject,
+            message=message
+        )
+        data.save()
+        return render(request, 'contact.html', views)
+    return render(request, 'contact.html', views)
 
 # def home(request):
 #     return render(request, 'index.html')

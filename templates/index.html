@@ -11,7 +11,7 @@
                             <ul class="navbar-nav">
                                 {% for cat in categories %}
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#"><i class="fa fa-{{cat.logo}}"></i>{{cat.name}}</a>
+                                    <a class="nav-link" href="/category/{{cat.slug}}"><i class="fa fa-{{cat.logo}}"></i>{{cat.name}}</a>
                                 </li>
                                 {% endfor %}
                             </ul>
@@ -33,14 +33,14 @@
                     <div class="col-md-3">
                         <div class="header-img">
                             {% for ad in ads %}
-                            {% if ad.rank ==1 %}
+                            {% if ad.rank == 1 %}
                             <div class="img-item">
                                 <img src="{{ad.image.url}}" />
                                 <a class="img-text" href="">
                                     <p>{{ad.description}}</p>
                                 </a>
                             </div>
-                            {% elif ad.rank ==2 %}
+                            {% elif ad.rank == 2 %}
                             <div class="img-item">
                                 <img src="{{ad.image.url}}" />
                                 <a class="img-text" href="">
@@ -48,7 +48,7 @@
                                 </a>
                             </div>
                             {% endif%}
-                            {% end for %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
             <div class="container-fluid">
                 <div class="brand-slider">
                     {% for brand in brands %}
-                    <div class="brand-item"><img src="{{brand.image.url}}" alt=""></div>
+                    <div class="brand-item"><a href="/brand/{{brand.slug}}"><img src="{{brand.image.url}}" alt=""></a> </div>
                     {% endfor %}
                 </div>
             </div>
@@ -116,19 +116,22 @@
         <!-- Category Start-->
         <div class="category">
             <div class="container-fluid">
-                {% for ad in ads %}
+
                 <div class="row">
-                    {% if ad.rank ==3 %}
                     <div class="col-md-3">
+                        {% for ad in ads %}
+                        {% if ad.rank == 3 %}
                         <div class="category-item ch-400">
                             <img src="{{ad.image.url}}" />
                             <a class="category-name" href="">
                                 <p>{{ad.description}}</p>
                             </a>
                         </div>
+                        {% endif %}
+                        {% endfor %}
                     </div>
-                    {% endif %}
                     <div class="col-md-3">
+                         {% for ad in ads %}
                         {% if ad.rank == 4 %}
                         <div class="category-item ch-250">
                             <img src="{{ad.image.url}}" />
@@ -136,7 +139,7 @@
                                 <p>{{ad.description}}</p>
                             </a>
                         </div>
-                        {% elif ad.rank ==5 %}
+                        {% elif ad.rank == 5 %}
                         <div class="category-item ch-150">
                             <img src="{{ad.image.url}}" />
                             <a class="category-name" href="">
@@ -144,8 +147,10 @@
                             </a>
                         </div>
                         {% endif %}
+                        {% endfor %}
                     </div>
                     <div class="col-md-3">
+                        {% for ad in ads %}
                         {% if ad.rank == 6 %}
                         <div class="category-item ch-150">
                             <img src="{{ad.image.url}}" />
@@ -153,7 +158,7 @@
                                 <p>{{ad.description}}</p>
                             </a>
                         </div>
-                        {% elif ad.rank ==7 %}
+                        {% elif ad.rank == 7 %}
                         <div class="category-item ch-250">
                             <img src="{{ad.image.url}}" />
                             <a class="category-name" href="">
@@ -161,19 +166,22 @@
                             </a>
                         </div>
                         {% endif %}
+                        {% endfor %}
                     </div>
-                    {% if ad.rank == 8 %}
                     <div class="col-md-3">
+                        {% for ad in ads %}
+                        {% if ad.rank == 8 %}
                         <div class="category-item ch-400">
                             <img src="{{ad.image.url}}" />
                             <a class="category-name" href="">
                                 <p>{{ad.description}}</p>
                             </a>
                         </div>
+                        {% endif %}
+                        {% endfor %}
                     </div>
-                    {% endif %}
                 </div>
-                {% endfor %}
+
             </div>
         </div>
         <!-- Category End-->       
@@ -181,14 +189,18 @@
         <!-- Call to Action Start -->
         <div class="call-to-action">
             <div class="container-fluid">
+                {%for call in calls%}
                 <div class="row align-items-center">
+
                     <div class="col-md-6">
-                        <h1>call us for any queries</h1>
+                        <h1>{{call.desc}}</h1>
                     </div>
                     <div class="col-md-6">
-                        <a href="tel:0123456789">+012-345-6789</a>
+                        <a href="tel:0123456789">{{call.phone}}</a>
                     </div>
+
                 </div>
+                {% endfor %}
             </div>
         </div>
         <!-- Call to Action End -->       
@@ -215,7 +227,7 @@
                             </div>
                             <div class="product-image">
                                 <a href="product-detail.html">
-                                    <img src="{{hot.image.url}}" alt="Product Image">
+                                    <img src="{{hot.image.url}}" alt="Product Image" style="height:200px;">
                                 </a>
                                 <div class="product-action">
                                     <a href="#"><i class="fa fa-cart-plus"></i></a>
@@ -413,14 +425,15 @@
         <div class="review">
             <div class="container-fluid">
                 <div class="row align-items-center review-slider normal-slider">
+                    {% for feedback in feedbacks %}
                     <div class="col-md-6">
                         <div class="review-slider-item">
                             <div class="review-img">
-                                <img src="{% static 'img/review-1.jpg' %}" alt="Image">
+                                <img src="{{feedback.image.url}}" alt="Image">
                             </div>
                             <div class="review-text">
-                                <h2>Customer Name</h2>
-                                <h3>Profession</h3>
+                                <h2>{{feedback.name}}</h2>
+                                <h3>{{feedback.post}}</h3>
                                 <div class="ratting">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
@@ -429,53 +442,12 @@
                                     <i class="fa fa-star"></i>
                                 </div>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vitae nunc eget leo finibus luctus et vitae lorem
+                                    {{feedback.desc}}
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="review-slider-item">
-                            <div class="review-img">
-                                <img src="{% static 'img/review-2.jpg' %}" alt="Image">
-                            </div>
-                            <div class="review-text">
-                                <h2>Customer Name</h2>
-                                <h3>Profession</h3>
-                                <div class="ratting">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vitae nunc eget leo finibus luctus et vitae lorem
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="review-slider-item">
-                            <div class="review-img">
-                                <img src="{% static 'img/review-3.jpg' %}" alt="Image">
-                            </div>
-                            <div class="review-text">
-                                <h2>Customer Name</h2>
-                                <h3>Profession</h3>
-                                <div class="ratting">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vitae nunc eget leo finibus luctus et vitae lorem
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

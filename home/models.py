@@ -92,22 +92,3 @@ class Callus(models.Model):
         return self.desc
 
 
-class Information(models.Model):
-    title = models.CharField(max_length=25)
-    office_address = models.CharField(max_length=100)
-    email = models.EmailField(max_length=50)
-    phone = models.CharField(max_length=25)
-    logo = models.CharField(max_length=25)
-
-    def __str__(self):
-        return self.title
-
-
-class Users(models.Model):
-    name = models.CharField(max_length=50)
-    email = models.CharField(max_length=50)
-    subject = models.TextField(blank=True)
-    message = models.TextField()
-
-    def __str__(self):
-        return self.name

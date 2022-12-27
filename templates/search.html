@@ -24,7 +24,7 @@
                                 <div class="product-view-top">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <form method="GET" action="search">
+                                            <form method="GET" action="/search">
                                                 <div class="search">
                                                     <input type="text" name="query" placeholder="Search">
                                                     <button type="submit"><i class="fa fa-search"></i></button>
@@ -127,7 +127,7 @@
                             <nav class="navbar bg-light">
                                 <ul class="navbar-nav">
 
-                                     {% for cat in categories %}
+                                {% for cat in categories %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="/category/{{cat.slug}}"><i class="fa fa-{{cat.logo}}"></i>{{cat.name}}</a>
                                 </li>
@@ -140,7 +140,7 @@
                         <div class="sidebar-widget widget-slider">
                             <div class="sidebar-slider normal-slider">
                     {% for hot in sale_products %}
-                    <div class="col-lg-3">
+
                         <div class="product-item">
                             <div class="product-title">
                                 <a href="#">{{hot.name}}</a>
@@ -171,7 +171,7 @@
                                 <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
                             </div>
                         </div>
-                    </div>
+
                     {% endfor %}
                             </div>
                         </div>
@@ -211,12 +211,9 @@
         <div class="brand">
             <div class="container-fluid">
                 <div class="brand-slider">
-                    <div class="brand-item"><img src="{% static 'img/brand-1.png' %}" alt=""></div>
-                    <div class="brand-item"><img src="{% static 'img/brand-2.png' %}" alt=""></div>
-                    <div class="brand-item"><img src="{% static 'img/brand-3.png' %}" alt=""></div>
-                    <div class="brand-item"><img src="{% static 'img/brand-4.png' %}" alt=""></div>
-                    <div class="brand-item"><img src="{% static 'img/brand-5.png' %}" alt=""></div>
-                    <div class="brand-item"><img src="{% static 'img/brand-6.png' %}" alt=""></div>
+                    {% for brand in brands %}
+                    <div class="brand-item"><a href="/brand/{{brand.slug}}"><img src="{{brand.image.url}}" alt=""></a> </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

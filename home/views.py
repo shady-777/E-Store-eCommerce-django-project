@@ -51,24 +51,11 @@ class SearchView(BaseView):
         return render(request, 'search.html', self.views)
 
 
-def contact(request):
-    views = {}
-    views['information'] = Information.objects.all()
+class ProductDetailView(BaseView):
 
-    if request.method == 'POST':
-        name = request.POST['name']
-        email = request.POST['email']
-        subject = request.POST['subject']
-        message = request.POST['message']
-        data = Users.objects.create(
-            name=name,
-            email=email,
-            subject=subject,
-            message=message
-        )
-        data.save()
-        return render(request, 'contact.html', views)
-    return render(request, 'contact.html', views)
+    def get(self,request,slug):
+        self.views['product_detail'] = Product.objects.filter(slug=slug)
+        return render(request, 'product-detail.html', self.views)
 
 # def home(request):
 #     return render(request, 'index.html')
@@ -82,8 +69,8 @@ def contact(request):
 #     return render(request, 'checkout.html')
 #
 #
-# def contact(request):
-#     return render(request, 'contact.html')
+def contact(request):
+    return render(request, 'contact.html')
 #
 #
 # def login(request):
